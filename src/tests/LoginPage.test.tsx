@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { expect, describe, it, vi } from "vitest";
-import LoginPage from "../components/LoginPage";
+import LoginPage from "../components/Auth/LoginPage";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
