@@ -1,17 +1,38 @@
 import { useEffect, useState } from "react";
-import { User } from "../../types/types";
+import { User, Message } from "../../types/types";
 
-function Sidebar({ fetchUsers }: { fetchUsers: () => Promise<User[]> }) {
+interface SidebarProps {
+  fetchUsers: () => Promise<User[]>;
+  fetchMessages: (userId: number) => Promise<Message[]>;
+  setMessages: (messages: Message[]) => void;
+}
+
+function Sidebar({ fetchUsers, fetchMessages, setMessages }: SidebarProps) {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const getUsers = async () => {
-      const fetchedUsers = await fetchUsers();
-      setUsers(fetchedUsers);
-      setLoading(false);
+      try {
+        const fetchedUsers = await fetchUsers();
+        setUsers(fetchedUsers);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      } finally {
+        setLoading(false);
+      }
     };
     getUsers();
-  }, []);
+  }, [fetchUsers]);
+
+  const handleUserClick = async (userId: number) => {
+    try {
+      const userMessages = await fetchMessages(userId);
+      setMessages(userMessages);
+    } catch (error) {
+      console.error("Error fetching messages for user:", error);
+    }
+  };
 
   return (
     <div>
@@ -20,10 +41,10 @@ function Sidebar({ fetchUsers }: { fetchUsers: () => Promise<User[]> }) {
         <p>Loading...</p>
       ) : (
         <ul>
-          {users.map((user: User) => (
-            <li key={user.id}>
+          {users.map((user) => (
+            <li key={user.id} onClick={() => handleUserClick(user.id)}>
               <p>{user.username}</p>
-              <img src={user.avatarUrl} alt="user avatar" />
+              <img src={user.avatarUrl} alt={`${user.username}'s avatar`} />
             </li>
           ))}
         </ul>

@@ -11,22 +11,42 @@ describe("Sidebar", () => {
   ];
 
   const fetchUsers = vi.fn().mockResolvedValue(mockUsers);
+  const fetchMessages = vi.fn();
+  const setMessages = vi.fn();
 
   it("calls fetchUsers on mount", async () => {
-    render(<Sidebar fetchUsers={fetchUsers} />);
+    render(
+      <Sidebar
+        fetchUsers={fetchUsers}
+        fetchMessages={fetchMessages}
+        setMessages={setMessages}
+      />
+    );
     await waitFor(() => expect(fetchUsers).toHaveBeenCalledTimes(1));
   });
 
   it("displays loading message while fetching users", async () => {
-    render(<Sidebar fetchUsers={fetchUsers} />);
+    render(
+      <Sidebar
+        fetchUsers={fetchUsers}
+        fetchMessages={fetchMessages}
+        setMessages={setMessages}
+      />
+    );
 
     expect(screen.getByText("Loading...")).toBeInTheDocument();
 
     await waitFor(() => expect(screen.getByText("user1")).toBeInTheDocument());
   });
 
-  it("renders Sidebar with users list and fetch users", async () => {
-    render(<Sidebar fetchUsers={fetchUsers} />);
+  it("renders Sidebar with users list", async () => {
+    render(
+      <Sidebar
+        fetchUsers={fetchUsers}
+        fetchMessages={fetchMessages}
+        setMessages={setMessages}
+      />
+    );
 
     await waitFor(() => {
       mockUsers.forEach((user) => {
