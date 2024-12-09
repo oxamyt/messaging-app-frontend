@@ -1,38 +1,36 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { expect, describe, it, vi } from "vitest";
+import { expect, describe, it, vi, beforeEach } from "vitest";
 import "@testing-library/jest-dom";
 import Sidebar from "../components/Messages/Sidebar";
+import { fetchMessages, fetchUsers } from "../utils/api";
+import { User } from "../types/types";
+
+vi.mock("../utils/api", () => ({
+  fetchMessages: vi.fn(),
+  fetchUsers: vi.fn(),
+}));
 
 describe("Sidebar", () => {
-  const mockUsers = [
+  const mockUsers: User[] = [
     { id: 1, username: "user1", avatarUrl: "example.com" },
     { id: 2, username: "user2", avatarUrl: "example.com" },
     { id: 3, username: "user3", avatarUrl: "example.com" },
   ];
 
-  const fetchUsers = vi.fn().mockResolvedValue(mockUsers);
-  const fetchMessages = vi.fn();
   const setMessages = vi.fn();
 
+  beforeEach(() => {
+    vi.mocked(fetchMessages).mockResolvedValue([]);
+    vi.mocked(fetchUsers).mockResolvedValue(mockUsers);
+  });
+
   it("calls fetchUsers on mount", async () => {
-    render(
-      <Sidebar
-        fetchUsers={fetchUsers}
-        fetchMessages={fetchMessages}
-        setMessages={setMessages}
-      />
-    );
+    render(<Sidebar setMessages={setMessages} />);
     await waitFor(() => expect(fetchUsers).toHaveBeenCalledTimes(1));
   });
 
   it("displays loading message while fetching users", async () => {
-    render(
-      <Sidebar
-        fetchUsers={fetchUsers}
-        fetchMessages={fetchMessages}
-        setMessages={setMessages}
-      />
-    );
+    render(<Sidebar setMessages={setMessages} />);
 
     expect(screen.getByText("Loading...")).toBeInTheDocument();
 
@@ -40,13 +38,7 @@ describe("Sidebar", () => {
   });
 
   it("renders Sidebar with users list", async () => {
-    render(
-      <Sidebar
-        fetchUsers={fetchUsers}
-        fetchMessages={fetchMessages}
-        setMessages={setMessages}
-      />
-    );
+    render(<Sidebar setMessages={setMessages} />);
 
     await waitFor(() => {
       mockUsers.forEach((user) => {

@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { User, Message } from "../../types/types";
-
+import { fetchMessages, fetchUsers } from "../../utils/api";
 interface SidebarProps {
-  fetchUsers: () => Promise<User[]>;
-  fetchMessages: (userId: number) => Promise<Message[]>;
   setMessages: (messages: Message[]) => void;
 }
 
-function Sidebar({ fetchUsers, fetchMessages, setMessages }: SidebarProps) {
+function Sidebar({ setMessages }: SidebarProps) {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -23,11 +21,11 @@ function Sidebar({ fetchUsers, fetchMessages, setMessages }: SidebarProps) {
       }
     };
     getUsers();
-  }, [fetchUsers]);
+  }, []);
 
   const handleUserClick = async (userId: number) => {
     try {
-      const userMessages = await fetchMessages(userId);
+      const userMessages = await fetchMessages({ userId });
       setMessages(userMessages);
     } catch (error) {
       console.error("Error fetching messages for user:", error);
