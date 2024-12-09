@@ -1,17 +1,23 @@
 import { render, screen } from "@testing-library/react";
-import { expect, describe, it, vi } from "vitest";
+import { expect, describe, it, vi, afterEach } from "vitest";
 import LoginPage from "../components/Auth/LoginPage";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
+import { fireEvent } from "@testing-library/react";
+
+vi.mock("../utils/handlers.ts", () => ({
+  handleSubmit: vi.fn(),
+}));
+
+const { handleSubmit } = await import("../utils/handlers");
 
 describe("LoginPage", () => {
-  const onSubmit = vi.fn();
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
 
   it("should render login form", () => {
-    onSubmit.mockImplementation((event) => {
-      event.preventDefault();
-    });
-    render(<LoginPage onSubmit={onSubmit} />);
+    render(<LoginPage />);
     expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /login/i })).toBeInTheDocument();
@@ -19,10 +25,8 @@ describe("LoginPage", () => {
 
   it("should allow users to type into the username and password fields", async () => {
     const user = userEvent.setup();
-    onSubmit.mockImplementation((event) => {
-      event.preventDefault();
-    });
-    render(<LoginPage onSubmit={onSubmit} />);
+
+    render(<LoginPage />);
     const usernameInput = screen.getByLabelText(/username/i);
     const passwordInput = screen.getByLabelText(/password/i);
 
@@ -34,36 +38,29 @@ describe("LoginPage", () => {
   });
 
   it("should not submit the form when fields are empty", async () => {
-    onSubmit.mockImplementation((event) => {
-      event.preventDefault();
-    });
     const user = userEvent.setup();
-    render(<LoginPage onSubmit={onSubmit} />);
+    render(<LoginPage />);
 
     const submitButton = screen.getByRole("button", { name: /login/i });
 
     await user.click(submitButton);
 
-    expect(onSubmit).not.toHaveBeenCalled();
+    expect(handleSubmit).not.toHaveBeenCalled();
   });
 
   it("should allow submit the form when fields are empty", async () => {
-    onSubmit.mockImplementation((event) => {
-      event.preventDefault();
-    });
     const user = userEvent.setup();
-    render(<LoginPage onSubmit={onSubmit} />);
+    render(<LoginPage />);
     const usernameInput = screen.getByLabelText(/username/i);
     const passwordInput = screen.getByLabelText(/password/i);
 
     await user.type(usernameInput, "sam");
     await user.type(passwordInput, "password123");
+    const form = screen.getByRole("form");
 
-    const submitButton = screen.getByRole("button", { name: /login/i });
+    fireEvent.submit(form);
 
-    await user.click(submitButton);
-
-    expect(onSubmit).toHaveBeenCalled();
+    expect(handleSubmit).toHaveBeenCalled();
     expect(usernameInput).toHaveValue("sam");
     expect(passwordInput).toHaveValue("password123");
   });

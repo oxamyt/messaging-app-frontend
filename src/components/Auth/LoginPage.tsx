@@ -1,10 +1,7 @@
 import { useState } from "react";
+import { handleSubmit } from "../../utils/handlers";
 
-function LoginPage({
-  onSubmit,
-}: {
-  onSubmit: (event: React.FormEvent) => void;
-}) {
+function LoginPage() {
   const [userCredentials, setUserCredentials] = useState({
     username: "",
     password: "",
@@ -19,7 +16,7 @@ function LoginPage({
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit} role="form">
       <label>
         Username:
         <input
