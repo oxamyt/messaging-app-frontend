@@ -1,10 +1,7 @@
 import { useState } from "react";
+import { handleSubmit } from "../../utils/handlers";
 
-function RegisterPage({
-  onSubmit,
-}: {
-  onSubmit: (event: React.FormEvent) => void;
-}) {
+function RegisterPage() {
   const [userCredentials, setUserCredentials] = useState({
     username: "",
     password: "",
@@ -20,7 +17,7 @@ function RegisterPage({
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (userCredentials.password !== userCredentials.confirmPassword) {
@@ -28,11 +25,13 @@ function RegisterPage({
       return;
     }
 
-    onSubmit(e);
+    setError("");
+
+    handleSubmit(e);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleFormSubmit}>
       <label>
         Username:
         <input
