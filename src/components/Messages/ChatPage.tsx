@@ -1,13 +1,8 @@
 import { useState } from "react";
 import { Message } from "../../types/types";
+import { handleSubmit } from "../../utils/handlers";
 
-function ChatPage({
-  onSubmit,
-  messages,
-}: {
-  onSubmit: (event: React.FormEvent) => void;
-  messages: Message[];
-}) {
+function ChatPage({ messages }: { messages: Message[] }) {
   const [content, setContent] = useState("");
 
   return (
@@ -24,7 +19,7 @@ function ChatPage({
           ))
         )}
       </ul>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit} role="form">
         <label>
           Message:
           <textarea
