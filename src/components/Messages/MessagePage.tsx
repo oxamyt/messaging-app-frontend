@@ -1,30 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ChatPage from "./ChatPage";
 import Sidebar from "./Sidebar";
-import { User, Message } from "../../types/types";
+import { Message } from "../../types/types";
 
-interface MessagePageProps {
-  fetchUsers: () => Promise<User[]>;
-  fetchMessages: (userId: number) => Promise<Message[]>;
-  onSubmit: (event: React.FormEvent) => void;
-}
-
-function MessagePage({
-  fetchUsers,
-  fetchMessages,
-  onSubmit,
-}: MessagePageProps) {
+function MessagePage() {
   const [messages, setMessages] = useState<Message[]>([]);
 
   return (
     <div>
-      <Sidebar
-        fetchUsers={fetchUsers}
-        setMessages={setMessages}
-        fetchMessages={fetchMessages}
-      />
+      <Sidebar setMessages={setMessages} />
 
-      <ChatPage onSubmit={onSubmit} messages={messages} />
+      <ChatPage messages={messages} />
     </div>
   );
 }

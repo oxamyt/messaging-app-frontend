@@ -3,6 +3,13 @@ import userEvent from "@testing-library/user-event";
 import { expect, describe, it, vi } from "vitest";
 import "@testing-library/jest-dom";
 import MessagePage from "../components/Messages/MessagePage";
+import { fetchMessages, fetchUsers } from "../utils/api";
+
+vi.mock("../utils/api", () => ({
+  fetchMessages: vi.fn(),
+  fetchUsers: vi.fn(),
+  handleSubmit: vi.fn(),
+}));
 
 describe("MessagePage", () => {
   it("renders Sidebar with users and displays messages in ChatPage when a user is clicked", async () => {
@@ -15,17 +22,10 @@ describe("MessagePage", () => {
       { id: 2, content: "How are you?", userId: 1 },
     ];
 
-    const fetchUsers = vi.fn().mockResolvedValue(mockUsers);
-    const fetchMessages = vi.fn().mockResolvedValue(mockMessages);
-    const onSubmit = vi.fn();
+    vi.mocked(fetchMessages).mockResolvedValue(mockMessages);
+    vi.mocked(fetchUsers).mockResolvedValue(mockUsers);
 
-    render(
-      <MessagePage
-        fetchUsers={fetchUsers}
-        fetchMessages={fetchMessages}
-        onSubmit={onSubmit}
-      />
-    );
+    render(<MessagePage />);
 
     await waitFor(() => {
       mockUsers.forEach((user) => {
@@ -37,7 +37,7 @@ describe("MessagePage", () => {
     userEvent.click(userElement);
 
     await waitFor(() => {
-      expect(fetchMessages).toHaveBeenCalledWith(mockUsers[0].id);
+      expect(fetchMessages).toHaveBeenCalledWith({ userId: mockUsers[0].id });
     });
 
     await waitFor(() => {
