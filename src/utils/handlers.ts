@@ -4,11 +4,16 @@ export const handleSubmit = async (
   event: React.FormEvent,
   endpoint: string,
   userData: Record<string, string>
-): Promise<void> => {
+) => {
   event.preventDefault();
 
   try {
-    await postRequest(endpoint, userData);
+    const responseData = await postRequest(endpoint, userData);
+    if (responseData.token) {
+      return { token: responseData.token };
+    } else {
+      return { message: responseData.message || "Success" };
+    }
   } catch (error) {
     console.error("Error during submission:", error);
   }

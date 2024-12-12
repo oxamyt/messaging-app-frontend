@@ -15,8 +15,20 @@ function LoginPage() {
     }));
   };
 
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const loginRequest = await handleSubmit(e, "auth/login", userCredentials);
+    if (loginRequest && loginRequest.token) {
+      localStorage.setItem("token", loginRequest.token);
+      console.log("Success:", loginRequest);
+    } else {
+      console.error("Login failed: No token received.");
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} role="form">
+    <form onSubmit={handleFormSubmit} role="form">
       <label>
         Username:
         <input

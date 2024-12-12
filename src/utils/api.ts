@@ -18,7 +18,7 @@ export async function fetchMessages({
 export async function postRequest(
   endpoint: string,
   userData: Record<string, string>
-): Promise<void> {
+) {
   try {
     const response = await fetch(`${API_URL}/${endpoint}`, {
       method: "POST",
@@ -27,14 +27,14 @@ export async function postRequest(
       },
       body: JSON.stringify(userData),
     });
-    console.log(response);
+
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || "Something went wrong.");
     }
 
     const data = await response.json();
-    console.log("Success:", data);
+    return data;
   } catch (error) {
     console.error("Error:", error);
   }
