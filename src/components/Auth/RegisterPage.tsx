@@ -17,7 +17,7 @@ function RegisterPage() {
     }));
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (userCredentials.password !== userCredentials.confirmPassword) {
@@ -27,7 +27,7 @@ function RegisterPage() {
 
     setError("");
 
-    handleSubmit(e);
+    await handleSubmit(e, "auth/register", userCredentials);
   };
 
   return (
