@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { handleSubmit } from "../../utils/handlers";
 import { useNavigate } from "react-router-dom";
+import InputField from "../common/InputField";
 
 function RegisterPage() {
   const [userCredentials, setUserCredentials] = useState({
@@ -47,45 +48,33 @@ function RegisterPage() {
       onSubmit={handleFormSubmit}
       className="w-full max-w-md bg-nord4 p-6 rounded-lg shadow-lg space-y-4"
     >
-      <label className="block text-nord3">
-        Username:
-        <input
-          type="text"
-          name="username"
-          value={userCredentials.username}
-          onChange={handleChange}
-          minLength={2}
-          maxLength={16}
-          required
-          className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6 "
-        />
-      </label>
+      <InputField
+        type="text"
+        name="username"
+        value={userCredentials.username}
+        handleChange={handleChange}
+        label="Username"
+        minLength={2}
+        maxLength={16}
+      />
 
-      <label className="block text-nord3">
-        Password:
-        <input
-          type="password"
-          name="password"
-          value={userCredentials.password}
-          onChange={handleChange}
-          minLength={4}
-          required
-          className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6"
-        />
-      </label>
+      <InputField
+        type="password"
+        name="password"
+        value={userCredentials.password}
+        handleChange={handleChange}
+        label="Password"
+        minLength={4}
+      />
 
-      <label className="block text-nord3">
-        Confirm Password:
-        <input
-          type="password"
-          name="confirmPassword"
-          value={userCredentials.confirmPassword}
-          onChange={handleChange}
-          minLength={4}
-          required
-          className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6"
-        />
-      </label>
+      <InputField
+        type="password"
+        name="confirmPassword"
+        value={userCredentials.confirmPassword}
+        handleChange={handleChange}
+        label="Confirm Password"
+        minLength={4}
+      />
 
       {error && <p className="text-red-500 text-center">{error}</p>}
 
