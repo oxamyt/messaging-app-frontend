@@ -3,6 +3,7 @@ import { expect, describe, it, vi, afterEach } from "vitest";
 import userEvent from "@testing-library/user-event";
 import RegisterPage from "../components/Auth/RegisterPage";
 import "@testing-library/jest-dom";
+import { MemoryRouter as Router } from "react-router-dom";
 
 vi.mock("../utils/handlers.ts", () => ({
   handleSubmit: vi.fn(),
@@ -16,7 +17,12 @@ describe("RegisterPage", () => {
   });
 
   it("should render register form", () => {
-    render(<RegisterPage />);
+    render(
+      <Router>
+        {" "}
+        <RegisterPage />
+      </Router>
+    );
     expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
     expect(screen.getByLabelText("Password:")).toBeInTheDocument();
     expect(screen.getByLabelText("Confirm password:")).toBeInTheDocument();
@@ -28,7 +34,12 @@ describe("RegisterPage", () => {
   it("should allow users to type into the username and password fields", async () => {
     const user = userEvent.setup();
 
-    render(<RegisterPage />);
+    render(
+      <Router>
+        {" "}
+        <RegisterPage />
+      </Router>
+    );
     const usernameInput = screen.getByLabelText(/username/i);
     const passwordInput = screen.getByLabelText("Password:");
     const confirmPasswordInput = screen.getByLabelText("Confirm password:");
@@ -44,7 +55,12 @@ describe("RegisterPage", () => {
 
   it("should not submit the form when fields are empty", async () => {
     const user = userEvent.setup();
-    render(<RegisterPage />);
+    render(
+      <Router>
+        {" "}
+        <RegisterPage />
+      </Router>
+    );
 
     const submitButton = screen.getByRole("button", { name: /register/i });
 
@@ -55,7 +71,12 @@ describe("RegisterPage", () => {
 
   it("should not submit the form when passwords do not match and display error", async () => {
     const user = userEvent.setup();
-    render(<RegisterPage />);
+    render(
+      <Router>
+        {" "}
+        <RegisterPage />
+      </Router>
+    );
     const usernameInput = screen.getByLabelText(/username/i);
     const passwordInput = screen.getByLabelText("Password:");
     const confirmPasswordInput = screen.getByLabelText("Confirm password:");
@@ -77,7 +98,12 @@ describe("RegisterPage", () => {
 
   it("should submit the form when passwords match", async () => {
     const user = userEvent.setup();
-    render(<RegisterPage />);
+    render(
+      <Router>
+        {" "}
+        <RegisterPage />
+      </Router>
+    );
     const usernameInput = screen.getByLabelText(/username/i);
     const passwordInput = screen.getByLabelText("Password:");
     const confirmPasswordInput = screen.getByLabelText("Confirm password:");

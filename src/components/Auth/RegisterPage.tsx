@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { handleSubmit } from "../../utils/handlers";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
   const [userCredentials, setUserCredentials] = useState({
@@ -8,6 +9,7 @@ function RegisterPage() {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -28,6 +30,8 @@ function RegisterPage() {
     setError("");
 
     await handleSubmit(e, "auth/register", userCredentials);
+
+    navigate("/auth/login");
   };
 
   return (

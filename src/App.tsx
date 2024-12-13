@@ -1,22 +1,26 @@
 import { Link } from "react-router-dom";
+import Header from "./components/common/Header";
+import Footer from "./components/common/Footer";
 
 function App() {
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <div className="space-x-4">
+    <div className="h-screen flex flex-col items-center justify-between bg-nord6 text-nord0">
+      <Header />
+      <div className="space-y-4 mt-8">
         <Link
           to="/auth/register"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="block px-6 py-3 bg-nord8 text-nord6 rounded-lg hover:bg-nord7 text-center"
         >
           Register
         </Link>
         <Link
           to="/auth/login"
-          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+          className="block px-6 py-3 bg-nord7 text-nord6 rounded-lg hover:bg-nord8 text-center"
         >
           Login
         </Link>
       </div>
+      <Footer />
     </div>
   );
 }
