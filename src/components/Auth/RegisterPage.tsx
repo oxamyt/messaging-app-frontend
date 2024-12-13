@@ -35,45 +35,61 @@ function RegisterPage() {
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <label>
+    <form
+      onSubmit={handleFormSubmit}
+      className="w-full max-w-md bg-nord4 p-6 rounded-lg shadow-lg space-y-4"
+    >
+      <label htmlFor="username" className="block text-nord3">
         Username:
-        <input
-          type="text"
-          name="username"
-          value={userCredentials.username}
-          onChange={handleChange}
-          minLength={2}
-          maxLength={16}
-          required
-        />
       </label>
-      <label>
+      <input
+        type="text"
+        name="username"
+        id="username"
+        value={userCredentials.username}
+        onChange={handleChange}
+        minLength={2}
+        maxLength={16}
+        required
+        className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6 "
+      />
+
+      <label htmlFor="password" className="block text-nord3">
         Password:
-        <input
-          type="password"
-          name="password"
-          value={userCredentials.password}
-          minLength={2}
-          onChange={handleChange}
-          required
-        />
       </label>
-      <label>
-        Confirm password:
-        <input
-          type="password"
-          name="confirmPassword"
-          value={userCredentials.confirmPassword}
-          minLength={2}
-          onChange={handleChange}
-          required
-        />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        value={userCredentials.password}
+        onChange={handleChange}
+        minLength={2}
+        required
+        className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6"
+      />
+
+      <label htmlFor="confirmPassword" className="block text-nord3">
+        Confirm Password:
       </label>
+      <input
+        type="password"
+        name="confirmPassword"
+        id="confirmPassword"
+        value={userCredentials.confirmPassword}
+        onChange={handleChange}
+        minLength={2}
+        required
+        className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6"
+      />
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="text-red-500 text-center">{error}</p>}
 
-      <button type="submit">Register</button>
+      <button
+        type="submit"
+        className="w-full py-3 mt-4 bg-nord8 text-nord3 font-bold rounded-md"
+      >
+        Register
+      </button>
     </form>
   );
 }

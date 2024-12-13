@@ -28,31 +28,49 @@ function LoginPage() {
   };
 
   return (
-    <form onSubmit={handleFormSubmit} role="form">
-      <label>
-        Username:
+    <form
+      onSubmit={handleFormSubmit}
+      className="w-full max-w-md bg-nord4 p-6 rounded-lg shadow-lg space-y-4"
+    >
+      <div>
+        <label htmlFor="username" className="block text-nord3">
+          Username:
+        </label>
         <input
           type="text"
           name="username"
+          id="username"
           value={userCredentials.username}
           onChange={handleChange}
           minLength={2}
           maxLength={16}
           required
+          className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6"
         />
-      </label>
-      <label>
-        Password:
+      </div>
+
+      <div>
+        <label htmlFor="password" className="block text-nord3">
+          Password:
+        </label>
         <input
           type="password"
           name="password"
+          id="password"
           value={userCredentials.password}
-          minLength={2}
           onChange={handleChange}
+          minLength={2}
           required
+          className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6"
         />
-      </label>
-      <button type="submit">Login</button>
+      </div>
+
+      <button
+        type="submit"
+        className="w-full py-3 mt-4 bg-nord8 text-nord3 font-bold rounded-md"
+      >
+        Login
+      </button>
     </form>
   );
 }
