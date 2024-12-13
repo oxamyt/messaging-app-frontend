@@ -25,7 +25,7 @@ describe("RegisterPage", () => {
     );
     expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
     expect(screen.getByLabelText("Password:")).toBeInTheDocument();
-    expect(screen.getByLabelText("Confirm password:")).toBeInTheDocument();
+    expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /register/i })
     ).toBeInTheDocument();
@@ -42,7 +42,7 @@ describe("RegisterPage", () => {
     );
     const usernameInput = screen.getByLabelText(/username/i);
     const passwordInput = screen.getByLabelText("Password:");
-    const confirmPasswordInput = screen.getByLabelText("Confirm password:");
+    const confirmPasswordInput = screen.getByLabelText(/confirm password/i);
 
     await user.type(usernameInput, "sam");
     await user.type(passwordInput, "password123");
@@ -79,7 +79,7 @@ describe("RegisterPage", () => {
     );
     const usernameInput = screen.getByLabelText(/username/i);
     const passwordInput = screen.getByLabelText("Password:");
-    const confirmPasswordInput = screen.getByLabelText("Confirm password:");
+    const confirmPasswordInput = screen.getByLabelText(/confirm password/i);
 
     await user.type(usernameInput, "sam");
     await user.type(passwordInput, "password123");
@@ -106,7 +106,7 @@ describe("RegisterPage", () => {
     );
     const usernameInput = screen.getByLabelText(/username/i);
     const passwordInput = screen.getByLabelText("Password:");
-    const confirmPasswordInput = screen.getByLabelText("Confirm password:");
+    const confirmPasswordInput = screen.getByLabelText(/confirm password/i);
 
     await user.type(usernameInput, "sam");
     await user.type(passwordInput, "password123");

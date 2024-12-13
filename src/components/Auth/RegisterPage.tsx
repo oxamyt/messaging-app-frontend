@@ -29,9 +29,17 @@ function RegisterPage() {
 
     setError("");
 
-    await handleSubmit(e, "auth/register", userCredentials);
+    const responseData = await handleSubmit(
+      e,
+      "auth/register",
+      userCredentials
+    );
 
-    navigate("/auth/login");
+    if (responseData && responseData.message) {
+      setError(responseData.message);
+    } else {
+      navigate("/auth/login");
+    }
   };
 
   return (
@@ -39,48 +47,45 @@ function RegisterPage() {
       onSubmit={handleFormSubmit}
       className="w-full max-w-md bg-nord4 p-6 rounded-lg shadow-lg space-y-4"
     >
-      <label htmlFor="username" className="block text-nord3">
+      <label className="block text-nord3">
         Username:
+        <input
+          type="text"
+          name="username"
+          value={userCredentials.username}
+          onChange={handleChange}
+          minLength={2}
+          maxLength={16}
+          required
+          className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6 "
+        />
       </label>
-      <input
-        type="text"
-        name="username"
-        id="username"
-        value={userCredentials.username}
-        onChange={handleChange}
-        minLength={2}
-        maxLength={16}
-        required
-        className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6 "
-      />
 
-      <label htmlFor="password" className="block text-nord3">
+      <label className="block text-nord3">
         Password:
+        <input
+          type="password"
+          name="password"
+          value={userCredentials.password}
+          onChange={handleChange}
+          minLength={4}
+          required
+          className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6"
+        />
       </label>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        value={userCredentials.password}
-        onChange={handleChange}
-        minLength={2}
-        required
-        className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6"
-      />
 
-      <label htmlFor="confirmPassword" className="block text-nord3">
+      <label className="block text-nord3">
         Confirm Password:
+        <input
+          type="password"
+          name="confirmPassword"
+          value={userCredentials.confirmPassword}
+          onChange={handleChange}
+          minLength={4}
+          required
+          className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6"
+        />
       </label>
-      <input
-        type="password"
-        name="confirmPassword"
-        id="confirmPassword"
-        value={userCredentials.confirmPassword}
-        onChange={handleChange}
-        minLength={2}
-        required
-        className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6"
-      />
 
       {error && <p className="text-red-500 text-center">{error}</p>}
 

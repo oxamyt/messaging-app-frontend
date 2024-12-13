@@ -11,10 +11,11 @@ export const handleSubmit = async (
     const responseData = await postRequest(endpoint, userData);
     if (responseData.token) {
       return { token: responseData.token };
-    } else {
-      return { message: responseData.message || "Success" };
+    } else if (responseData.message) {
+      return { message: responseData.message };
     }
   } catch (error) {
     console.error("Error during submission:", error);
+    return { message: "An error occurred. Please try again." };
   }
 };
