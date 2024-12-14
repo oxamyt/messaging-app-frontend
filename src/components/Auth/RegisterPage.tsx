@@ -36,10 +36,13 @@ function RegisterPage() {
       userCredentials
     );
 
-    if (responseData && responseData.message) {
-      setError(responseData.message);
-    } else {
+    if (
+      responseData &&
+      responseData.message === "User registered successfully!"
+    ) {
       navigate("/auth/login");
+    } else if (responseData && responseData.message) {
+      setError(responseData.message);
     }
   };
 
@@ -76,7 +79,7 @@ function RegisterPage() {
         minLength={4}
       />
 
-      {error && <p className="text-red-500 text-center">{error}</p>}
+      {error && <p className="text-red-500   text-center">{error}</p>}
 
       <button
         type="submit"

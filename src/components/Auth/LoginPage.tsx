@@ -30,7 +30,7 @@ function LoginPage() {
         console.log("Success:", loginRequest);
         setError("");
       } else {
-        console.error("Login failed: No token received.");
+        setError("Login failed: No token received.");
       }
     }
   };

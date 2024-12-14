@@ -12,8 +12,9 @@ function Sidebar({ setMessages }: SidebarProps) {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const fetchedUsers = await fetchUsers();
-        setUsers(fetchedUsers);
+        const fetchedUsers = await fetchUsers("auth/users");
+
+        setUsers(fetchedUsers || []);
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {

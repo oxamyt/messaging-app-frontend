@@ -1,9 +1,28 @@
 import { User, Message } from "../types/types";
 const API_URL = import.meta.env.VITE_API_URL;
 
-export async function fetchUsers(): Promise<User[]> {
-  console.log("User fetched");
-  return [];
+export async function fetchUsers(
+  endpoint: string
+): Promise<User[] | undefined> {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await fetch(`${API_URL}/${endpoint}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData;
+    }
+
+    const data = await response.json();
+    return data.users;
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
 export async function fetchMessages({

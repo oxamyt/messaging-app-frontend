@@ -3,7 +3,7 @@ import { expect, describe, it, vi, afterEach } from "vitest";
 import LoginPage from "../components/Auth/LoginPage";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import { fireEvent } from "@testing-library/react";
+import { fireEvent, act } from "@testing-library/react";
 
 vi.mock("../utils/handlers.ts", () => ({
   handleSubmit: vi.fn(),
@@ -48,7 +48,7 @@ describe("LoginPage", () => {
     expect(handleSubmit).not.toHaveBeenCalled();
   });
 
-  it("should allow submit the form when fields are empty", async () => {
+  it("should allow submit the form when fields are not empty", async () => {
     const user = userEvent.setup();
     render(<LoginPage />);
     const usernameInput = screen.getByLabelText(/username/i);
@@ -57,8 +57,9 @@ describe("LoginPage", () => {
     await user.type(usernameInput, "sam");
     await user.type(passwordInput, "password123");
     const form = screen.getByRole("form");
-
-    fireEvent.submit(form);
+    await act(async () => {
+      fireEvent.submit(form);
+    });
 
     expect(handleSubmit).toHaveBeenCalled();
     expect(usernameInput).toHaveValue("sam");
