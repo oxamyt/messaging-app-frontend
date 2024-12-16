@@ -19,6 +19,12 @@ function App() {
         >
           Login
         </Link>
+        <Link
+          to="/messages"
+          className="block px-6 py-3 bg-nord7 text-nord6 rounded-lg hover:bg-nord8 text-center"
+        >
+          Messages
+        </Link>
       </div>
       <Footer />
     </div>

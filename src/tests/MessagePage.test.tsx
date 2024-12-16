@@ -4,6 +4,7 @@ import { expect, describe, it, vi } from "vitest";
 import "@testing-library/jest-dom";
 import MessagePage from "../components/Messages/MessagePage";
 import { fetchMessages, fetchUsers } from "../utils/api";
+import { MemoryRouter as Router } from "react-router-dom";
 
 vi.mock("../utils/api", () => ({
   fetchMessages: vi.fn(),
@@ -25,7 +26,12 @@ describe("MessagePage", () => {
     vi.mocked(fetchMessages).mockResolvedValue(mockMessages);
     vi.mocked(fetchUsers).mockResolvedValue(mockUsers);
 
-    render(<MessagePage />);
+    render(
+      <Router>
+        {" "}
+        <MessagePage />
+      </Router>
+    );
 
     await waitFor(() => {
       mockUsers.forEach((user) => {
