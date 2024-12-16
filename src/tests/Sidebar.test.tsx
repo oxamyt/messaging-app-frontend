@@ -18,6 +18,7 @@ describe("Sidebar", () => {
   ];
 
   const setMessages = vi.fn();
+  const setReceiverId = vi.fn();
 
   beforeEach(() => {
     vi.mocked(fetchMessages).mockResolvedValue([]);
@@ -25,12 +26,12 @@ describe("Sidebar", () => {
   });
 
   it("calls fetchUsers on mount", async () => {
-    render(<Sidebar setMessages={setMessages} />);
+    render(<Sidebar setMessages={setMessages} setReceiverId={setReceiverId} />);
     await waitFor(() => expect(fetchUsers).toHaveBeenCalledTimes(1));
   });
 
   it("displays loading message while fetching users", async () => {
-    render(<Sidebar setMessages={setMessages} />);
+    render(<Sidebar setMessages={setMessages} setReceiverId={setReceiverId} />);
 
     expect(screen.getByText("Loading...")).toBeInTheDocument();
 
@@ -38,7 +39,7 @@ describe("Sidebar", () => {
   });
 
   it("renders Sidebar with users list", async () => {
-    render(<Sidebar setMessages={setMessages} />);
+    render(<Sidebar setMessages={setMessages} setReceiverId={setReceiverId} />);
 
     await waitFor(() => {
       mockUsers.forEach((user) => {

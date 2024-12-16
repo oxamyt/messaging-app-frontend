@@ -2,8 +2,23 @@ import { useState } from "react";
 import { Message } from "../../types/types";
 import { handleSubmit } from "../../utils/handlers";
 
-function ChatPage({ messages }: { messages: Message[] }) {
+function ChatPage({
+  messages,
+  receiverId,
+}: {
+  messages: Message[];
+  receiverId: number;
+}) {
   const [content, setContent] = useState("");
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    await handleSubmit(e, "message", {
+      receiverId: String(receiverId),
+      content,
+    });
+  };
 
   return (
     <div className="flex flex-col h-full bg-nord6 text-nord0">
@@ -23,11 +38,12 @@ function ChatPage({ messages }: { messages: Message[] }) {
       </ul>
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleFormSubmit}
         role="form"
         className="p-4 bg-nord5 flex items-center justify-center space-x-2 border-t border-nord3"
       >
         <label>
+          Message:
           <textarea
             name="content"
             value={content}

@@ -22,7 +22,7 @@ describe("ChatPage", () => {
   });
 
   it("renders ChatPage with message list, input, and send button", async () => {
-    render(<ChatPage messages={[]} />);
+    render(<ChatPage messages={[]} receiverId={1} />);
 
     expect(screen.getByRole("textbox")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /send/i })).toBeInTheDocument();
@@ -31,7 +31,7 @@ describe("ChatPage", () => {
 
   it("should not allow sending a message to user with empty input field", async () => {
     const user = userEvent.setup();
-    render(<ChatPage messages={[]} />);
+    render(<ChatPage messages={[]} receiverId={1} />);
 
     const submitButton = screen.getByRole("button", { name: /send/i });
 
@@ -42,7 +42,7 @@ describe("ChatPage", () => {
 
   it("sends a message to user", async () => {
     const user = userEvent.setup();
-    render(<ChatPage messages={[]} />);
+    render(<ChatPage messages={[]} receiverId={1} />);
 
     const messageInput = screen.getByLabelText(/message/i);
 
@@ -56,7 +56,7 @@ describe("ChatPage", () => {
   });
 
   it("renders messages passed as props", () => {
-    render(<ChatPage messages={messages} />);
+    render(<ChatPage messages={messages} receiverId={1} />);
 
     messages.forEach((message) => {
       expect(screen.getByText(message.content)).toBeInTheDocument();
@@ -64,7 +64,7 @@ describe("ChatPage", () => {
   });
 
   it("renders a placeholder when there are no messages", () => {
-    render(<ChatPage messages={[]} />);
+    render(<ChatPage messages={[]} receiverId={1} />);
 
     expect(screen.getByText("No messages yet")).toBeInTheDocument();
   });

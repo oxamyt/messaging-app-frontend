@@ -39,11 +39,19 @@ export async function postRequest(
   userData: Record<string, string>
 ) {
   try {
+    const token = localStorage.getItem("token");
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
     const response = await fetch(`${API_URL}/${endpoint}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
       body: JSON.stringify(userData),
     });
 

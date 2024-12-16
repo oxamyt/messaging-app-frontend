@@ -5,9 +5,10 @@ import { FaUsers } from "react-icons/fa";
 
 interface SidebarProps {
   setMessages: (messages: Message[]) => void;
+  setReceiverId: (id: number) => void;
 }
 
-function Sidebar({ setMessages }: SidebarProps) {
+function Sidebar({ setMessages, setReceiverId }: SidebarProps) {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +32,7 @@ function Sidebar({ setMessages }: SidebarProps) {
       const userMessages = await fetchMessages({ userId });
       setMessages(userMessages);
       setIsOpen(false);
+      setReceiverId(userId);
     } catch (error) {
       console.error("Error fetching messages for user:", error);
     }
