@@ -1,4 +1,4 @@
-import { User, Message } from "../types/types";
+import { User } from "../types/types";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export async function fetchUsers(
@@ -23,15 +23,6 @@ export async function fetchUsers(
   } catch (error) {
     console.error("Error:", error);
   }
-}
-
-export async function fetchMessages({
-  userId,
-}: {
-  userId: number;
-}): Promise<Message[]> {
-  console.log("Messages fetched", userId);
-  return [];
 }
 
 export async function postRequest(

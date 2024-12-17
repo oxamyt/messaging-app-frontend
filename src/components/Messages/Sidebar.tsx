@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { User, Message } from "../../types/types";
-import { fetchMessages, fetchUsers } from "../../utils/api";
+import { postRequest, fetchUsers } from "../../utils/api";
 import { FaUsers } from "react-icons/fa";
 
 interface SidebarProps {
@@ -27,10 +27,12 @@ function Sidebar({ setMessages, setReceiverId }: SidebarProps) {
     getUsers();
   }, []);
 
-  const handleUserClick = async (userId: number) => {
+  const handleUserClick = async (userId: number, username: string) => {
     try {
-      const userMessages = await fetchMessages({ userId });
-      setMessages(userMessages);
+      const response = await postRequest("message/retrieve", {
+        targetUsername: username,
+      });
+      setMessages(response.messages);
       setIsOpen(false);
       setReceiverId(userId);
     } catch (error) {
@@ -69,7 +71,7 @@ function Sidebar({ setMessages, setReceiverId }: SidebarProps) {
               <li
                 key={user.id}
                 className="flex items-center space-x-3 cursor-pointer hover:bg-nord3 p-2 rounded-md"
-                onClick={() => handleUserClick(user.id)}
+                onClick={() => handleUserClick(user.id, user.username)}
               >
                 <img
                   src={user.avatarUrl}

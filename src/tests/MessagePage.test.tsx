@@ -3,13 +3,12 @@ import userEvent from "@testing-library/user-event";
 import { expect, describe, it, vi } from "vitest";
 import "@testing-library/jest-dom";
 import MessagePage from "../components/Messages/MessagePage";
-import { fetchMessages, fetchUsers } from "../utils/api";
+import { postRequest, fetchUsers } from "../utils/api";
 import { MemoryRouter as Router } from "react-router-dom";
 
 vi.mock("../utils/api", () => ({
-  fetchMessages: vi.fn(),
+  postRequest: vi.fn(),
   fetchUsers: vi.fn(),
-  handleSubmit: vi.fn(),
 }));
 
 describe("MessagePage", () => {
@@ -23,7 +22,11 @@ describe("MessagePage", () => {
       { id: 2, content: "How are you?", userId: 1 },
     ];
 
-    vi.mocked(fetchMessages).mockResolvedValue(mockMessages);
+    const mockResponse = {
+      messages: mockMessages,
+    };
+
+    vi.mocked(postRequest).mockResolvedValue(mockResponse);
     vi.mocked(fetchUsers).mockResolvedValue(mockUsers);
 
     render(
@@ -43,7 +46,9 @@ describe("MessagePage", () => {
     userEvent.click(userElement);
 
     await waitFor(() => {
-      expect(fetchMessages).toHaveBeenCalledWith({ userId: mockUsers[0].id });
+      expect(postRequest).toHaveBeenCalledWith("message/retrieve", {
+        targetUsername: mockUsers[0].username,
+      });
     });
 
     await waitFor(() => {

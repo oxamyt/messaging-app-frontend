@@ -2,12 +2,12 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { expect, describe, it, vi, beforeEach } from "vitest";
 import "@testing-library/jest-dom";
 import Sidebar from "../components/Messages/Sidebar";
-import { fetchMessages, fetchUsers } from "../utils/api";
+import { postRequest, fetchUsers } from "../utils/api";
 import { User } from "../types/types";
 
 vi.mock("../utils/api", () => ({
-  fetchMessages: vi.fn(),
   fetchUsers: vi.fn(),
+  postRequest: vi.fn(),
 }));
 
 describe("Sidebar", () => {
@@ -21,7 +21,7 @@ describe("Sidebar", () => {
   const setReceiverId = vi.fn();
 
   beforeEach(() => {
-    vi.mocked(fetchMessages).mockResolvedValue([]);
+    vi.mocked(postRequest).mockResolvedValue([]);
     vi.mocked(fetchUsers).mockResolvedValue(mockUsers);
   });
 

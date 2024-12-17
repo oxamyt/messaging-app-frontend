@@ -23,7 +23,9 @@ function ChatPage({
   return (
     <div className="flex flex-col h-full bg-nord6 text-nord0">
       <ul className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.length === 0 ? (
+        {!messages ? (
+          <li className="text-center text-nord7 italic">Loading messages...</li> // Or some other loading indicator
+        ) : messages.length === 0 ? (
           <li className="text-center text-nord7 italic">No messages yet</li>
         ) : (
           messages.map((message) => (
