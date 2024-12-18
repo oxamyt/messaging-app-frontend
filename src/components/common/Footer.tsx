@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="bg-nord3 text-nord5 py-4 w-full text-center mt-8">
+    <footer className="bg-nord3 text-nord5 py-4 w-full text-center">
       <p>Oxamyt</p>
     </footer>
   );

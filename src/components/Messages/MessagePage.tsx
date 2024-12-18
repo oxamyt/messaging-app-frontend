@@ -32,7 +32,7 @@ function MessagePage() {
   }, [receiverId]);
 
   return (
-    <div className="h-screen flex flex-col bg-nord6 text-nord0">
+    <div className="h-screen flex relative flex-col bg-nord6 text-nord0">
       <Header />
       <div className="flex-1 relative">
         <Sidebar />
