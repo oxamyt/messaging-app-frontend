@@ -25,7 +25,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/messages",
+    path: "/messages/:receiverId?",
     element: <MessagePage />,
   },
 ]);

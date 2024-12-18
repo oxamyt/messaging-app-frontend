@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
-import { User, Message } from "../../types/types";
-import { postRequest, fetchUsers } from "../../utils/api";
+import { User } from "../../types/types";
+import { fetchUsers } from "../../utils/api";
 import { FaUsers } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-interface SidebarProps {
-  setMessages: (messages: Message[]) => void;
-  setReceiverId: (id: number) => void;
-}
-
-function Sidebar({ setMessages, setReceiverId }: SidebarProps) {
+function Sidebar() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUsers = async () => {
@@ -27,17 +24,9 @@ function Sidebar({ setMessages, setReceiverId }: SidebarProps) {
     getUsers();
   }, []);
 
-  const handleUserClick = async (userId: number, username: string) => {
-    try {
-      const response = await postRequest("message/retrieve", {
-        targetUsername: username,
-      });
-      setMessages(response.messages);
-      setIsOpen(false);
-      setReceiverId(userId);
-    } catch (error) {
-      console.error("Error fetching messages for user:", error);
-    }
+  const handleUserClick = async (userId: number) => {
+    navigate(`/messages/${userId}`);
+    setIsOpen(false);
   };
 
   return (
@@ -71,7 +60,7 @@ function Sidebar({ setMessages, setReceiverId }: SidebarProps) {
               <li
                 key={user.id}
                 className="flex items-center space-x-3 cursor-pointer hover:bg-nord3 p-2 rounded-md"
-                onClick={() => handleUserClick(user.id, user.username)}
+                onClick={() => handleUserClick(user.id)}
               >
                 <img
                   src={user.avatarUrl}

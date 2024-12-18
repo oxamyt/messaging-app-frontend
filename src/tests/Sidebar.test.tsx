@@ -4,6 +4,7 @@ import "@testing-library/jest-dom";
 import Sidebar from "../components/Messages/Sidebar";
 import { postRequest, fetchUsers } from "../utils/api";
 import { User } from "../types/types";
+import { MemoryRouter as Router } from "react-router-dom";
 
 vi.mock("../utils/api", () => ({
   fetchUsers: vi.fn(),
@@ -17,21 +18,26 @@ describe("Sidebar", () => {
     { id: 3, username: "user3", avatarUrl: "example.com" },
   ];
 
-  const setMessages = vi.fn();
-  const setReceiverId = vi.fn();
-
   beforeEach(() => {
     vi.mocked(postRequest).mockResolvedValue([]);
     vi.mocked(fetchUsers).mockResolvedValue(mockUsers);
   });
 
   it("calls fetchUsers on mount", async () => {
-    render(<Sidebar setMessages={setMessages} setReceiverId={setReceiverId} />);
+    render(
+      <Router>
+        <Sidebar />
+      </Router>
+    );
     await waitFor(() => expect(fetchUsers).toHaveBeenCalledTimes(1));
   });
 
   it("displays loading message while fetching users", async () => {
-    render(<Sidebar setMessages={setMessages} setReceiverId={setReceiverId} />);
+    render(
+      <Router>
+        <Sidebar />
+      </Router>
+    );
 
     expect(screen.getByText("Loading...")).toBeInTheDocument();
 
@@ -39,7 +45,11 @@ describe("Sidebar", () => {
   });
 
   it("renders Sidebar with users list", async () => {
-    render(<Sidebar setMessages={setMessages} setReceiverId={setReceiverId} />);
+    render(
+      <Router>
+        <Sidebar />
+      </Router>
+    );
 
     await waitFor(() => {
       mockUsers.forEach((user) => {
