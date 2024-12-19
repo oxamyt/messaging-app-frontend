@@ -10,7 +10,7 @@ function ChatPage({
   receiverId: number;
 }) {
   const [content, setContent] = useState("");
-
+  const [responseOnSubmit, setResponseOnSUbmit] = useState("");
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -18,6 +18,8 @@ function ChatPage({
       receiverId: String(receiverId),
       content,
     });
+    setContent("");
+    setResponseOnSUbmit("Message sent!");
   };
 
   return (
@@ -61,6 +63,7 @@ function ChatPage({
             className="flex-1 p-2 bg-nord6 text-nord0 rounded-lg  resize-none"
           ></textarea>
         </label>
+        {responseOnSubmit && <p className="text-nord14">{responseOnSubmit}</p>}
         <button
           type="submit"
           className="p-2 bg-nord7 text-nord6 font-semibold rounded-lg shadow-md hover:bg-nord8 transition"
