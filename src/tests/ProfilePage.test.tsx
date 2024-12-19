@@ -18,12 +18,12 @@ describe("Profile Page", () => {
       bio: "Hi! I'm a new one!",
     };
 
-    vi.mocked(getRequest).mockResolvedValue({ data: mockUser });
+    vi.mocked(getRequest).mockResolvedValue({ user: mockUser });
 
     render(
       <Router initialEntries={["/user/1"]}>
         <Routes>
-          <Route path="/user/:userId" element={<ProfilePage />} />
+          <Route path="/user/:id" element={<ProfilePage />} />
         </Routes>
       </Router>
     );

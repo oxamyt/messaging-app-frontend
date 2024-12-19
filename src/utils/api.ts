@@ -58,10 +58,7 @@ export async function postRequest(
   }
 }
 
-export async function getRequest(
-  endpoint: string,
-  userData: Record<string, string>
-) {
+export async function getRequest(endpoint: string) {
   try {
     const token = localStorage.getItem("token");
 
@@ -76,7 +73,6 @@ export async function getRequest(
     const response = await fetch(`${API_URL}/${endpoint}`, {
       method: "GET",
       headers,
-      body: JSON.stringify(userData),
     });
 
     if (!response.ok) {

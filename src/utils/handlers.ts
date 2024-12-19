@@ -10,7 +10,7 @@ export const handleSubmit = async (
   try {
     const responseData = await postRequest(endpoint, userData);
     if (responseData.token) {
-      return { token: responseData.token };
+      return { token: responseData.token, userId: responseData.userId };
     } else if (responseData.message) {
       return { message: responseData.message };
     }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { handleSubmit } from "../../utils/handlers";
 import InputField from "../common/InputField";
+import { useUser } from "../../Context/UserContext";
 
 function LoginPage() {
   const [userCredentials, setUserCredentials] = useState({
@@ -8,6 +9,7 @@ function LoginPage() {
     password: "",
   });
   const [error, setError] = useState("");
+  const { setUserId } = useUser();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,7 +29,7 @@ function LoginPage() {
     } else {
       if (loginRequest && loginRequest.token) {
         localStorage.setItem("token", loginRequest.token);
-        console.log("Success:", loginRequest);
+        setUserId(loginRequest.userId);
         setError("");
       } else {
         setError("Login failed: No token received.");

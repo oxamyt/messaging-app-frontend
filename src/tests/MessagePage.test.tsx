@@ -5,6 +5,7 @@ import "@testing-library/jest-dom";
 import MessagePage from "../components/Messages/MessagePage";
 import { postRequest, fetchUsers } from "../utils/api";
 import { MemoryRouter as Router, Routes, Route } from "react-router-dom";
+import { UserProvider } from "../Context/UserContext";
 vi.mock("../utils/api", () => ({
   postRequest: vi.fn(),
   fetchUsers: vi.fn(),
@@ -29,11 +30,13 @@ describe("MessagePage", () => {
     vi.mocked(fetchUsers).mockResolvedValue(mockUsers);
 
     render(
-      <Router initialEntries={["/messages/1"]}>
-        <Routes>
-          <Route path="/messages/:receiverId" element={<MessagePage />} />
-        </Routes>
-      </Router>
+      <UserProvider>
+        <Router initialEntries={["/messages/1"]}>
+          <Routes>
+            <Route path="/messages/:receiverId" element={<MessagePage />} />
+          </Routes>
+        </Router>
+      </UserProvider>
     );
 
     await waitFor(() => {

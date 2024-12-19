@@ -4,38 +4,45 @@ import { useParams } from "react-router-dom";
 import { getRequest } from "../../utils/api";
 
 function ProfilePage() {
-  const { userId } = useParams<{ userId?: string }>();
+  const { id } = useParams<{ id?: string }>();
   const [userData, setUserData] = useState<User | null>(null);
 
   useEffect(() => {
-    const fetchUser = async (userId: string | undefined) => {
-      if (!userId) return;
+    const fetchUser = async (id: string | undefined) => {
+      if (!id) return;
 
       try {
-        const response = await getRequest("auth/get-User", {
-          userId,
-        });
-        setUserData(response.data);
+        const response = await getRequest(`auth/users/${id}`);
+
+        setUserData(response.user);
       } catch (err) {
         console.error(err);
       }
     };
 
-    fetchUser(userId);
-  }, [userId]);
+    fetchUser(id);
+  }, [id]);
 
   return (
-    <div>
+    <div className="flex justify-center items-center h-full bg-nord5 text-nord4">
       {userData ? (
-        <div>
-          <h1>{userData.username}</h1>
-          <p>{userData.bio}</p>
-          {userData.avatarUrl && (
-            <img src={userData.avatarUrl} alt={userData.username} />
-          )}
+        <div className="bg-nord2 p-6  shadow-lg  w-full">
+          <div className="flex flex-col items-center space-y-4">
+            {userData.avatarUrl && (
+              <img
+                className="w-24 h-24 rounded-full object-cover"
+                src={userData.avatarUrl}
+                alt={userData.username}
+              />
+            )}
+            <h1 className="text-2xl font-bold text-nord6">
+              {userData.username}
+            </h1>
+            <p className="text-center text-nord5">{userData.bio}</p>
+          </div>
         </div>
       ) : (
-        <p>Loading user data...</p>
+        <p className="text-nord5">Loading user data...</p>
       )}
     </div>
   );

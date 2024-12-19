@@ -4,6 +4,7 @@ import LoginPage from "../components/Auth/LoginPage";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { fireEvent, act } from "@testing-library/react";
+import { UserProvider } from "../Context/UserContext";
 
 vi.mock("../utils/handlers.ts", () => ({
   handleSubmit: vi.fn(),
@@ -17,7 +18,11 @@ describe("LoginPage", () => {
   });
 
   it("should render login form", () => {
-    render(<LoginPage />);
+    render(
+      <UserProvider>
+        <LoginPage />
+      </UserProvider>
+    );
     expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /login/i })).toBeInTheDocument();
@@ -26,7 +31,11 @@ describe("LoginPage", () => {
   it("should allow users to type into the username and password fields", async () => {
     const user = userEvent.setup();
 
-    render(<LoginPage />);
+    render(
+      <UserProvider>
+        <LoginPage />
+      </UserProvider>
+    );
     const usernameInput = screen.getByLabelText(/username/i);
     const passwordInput = screen.getByLabelText(/password/i);
 
@@ -39,7 +48,11 @@ describe("LoginPage", () => {
 
   it("should not submit the form when fields are empty", async () => {
     const user = userEvent.setup();
-    render(<LoginPage />);
+    render(
+      <UserProvider>
+        <LoginPage />
+      </UserProvider>
+    );
 
     const submitButton = screen.getByRole("button", { name: /login/i });
 
@@ -50,7 +63,11 @@ describe("LoginPage", () => {
 
   it("should allow submit the form when fields are not empty", async () => {
     const user = userEvent.setup();
-    render(<LoginPage />);
+    render(
+      <UserProvider>
+        <LoginPage />
+      </UserProvider>
+    );
     const usernameInput = screen.getByLabelText(/username/i);
     const passwordInput = screen.getByLabelText(/password/i);
 

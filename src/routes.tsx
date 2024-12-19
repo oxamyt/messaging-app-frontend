@@ -4,6 +4,7 @@ import LoginPage from "./components/Auth/LoginPage";
 import AuthLayout from "./components/Auth/AuthLayout";
 import RegisterPage from "./components/Auth/RegisterPage";
 import MessagePage from "./components/Messages/MessagePage";
+import ProfileLayout from "./components/Profile/ProfileLayout";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/messages/:receiverId?",
     element: <MessagePage />,
+  },
+  {
+    path: "/user/:id?",
+    element: <ProfileLayout />,
   },
 ]);
 
