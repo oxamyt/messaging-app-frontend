@@ -86,3 +86,36 @@ export async function getRequest(endpoint: string) {
     console.error("Error:", error);
   }
 }
+
+export async function putRequest(
+  endpoint: string,
+  userData: Record<string, string>
+) {
+  try {
+    const token = localStorage.getItem("token");
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_URL}/${endpoint}`, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData;
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
