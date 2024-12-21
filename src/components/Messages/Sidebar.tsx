@@ -33,7 +33,7 @@ function Sidebar() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed top-20 left-4 z-40 p-2 bg-nord7 text-nord6 rounded-full shadow-md focus:outline-none hover:bg-nord8"
+        className="fixed top-15 left-6 z-40 p-2 bg-nord7 text-nord6 rounded-full shadow-md focus:outline-none hover:bg-nord8"
       >
         <FaUsers className="w-5 h-5" />
       </button>
@@ -61,6 +61,7 @@ function Sidebar() {
                 key={user.id}
                 className="flex items-center space-x-3 cursor-pointer hover:bg-nord3 p-2 rounded-md"
                 onClick={() => handleUserClick(user.id)}
+                aria-label={`User ${user.username}`}
               >
                 <img
                   src={user.avatarUrl}

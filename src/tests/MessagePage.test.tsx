@@ -18,8 +18,34 @@ describe("MessagePage", () => {
       { id: 2, username: "user2", avatarUrl: "example.com/avatar2.png" },
     ];
     const mockMessages = [
-      { id: 1, content: "Hello!", userId: 1 },
-      { id: 2, content: "How are you?", userId: 1 },
+      {
+        id: 1,
+        content: "Hello",
+        senderId: 1,
+        receiverId: 2,
+        sender: {
+          username: "user1",
+          avatarUrl: "https://example.com/avatar1.png",
+        },
+        receiver: {
+          username: "user2",
+          avatarUrl: "https://example.com/avatar2.png",
+        },
+      },
+      {
+        id: 2,
+        content: "Hi there!",
+        senderId: 2,
+        receiverId: 1,
+        sender: {
+          username: "User2",
+          avatarUrl: "https://example.com/avatar2.png",
+        },
+        receiver: {
+          username: "User1",
+          avatarUrl: "https://example.com/avatar1.png",
+        },
+      },
     ];
 
     const mockResponse = {
@@ -41,11 +67,15 @@ describe("MessagePage", () => {
 
     await waitFor(() => {
       mockUsers.forEach((user) => {
-        expect(screen.getByText(user.username)).toBeInTheDocument();
+        expect(
+          screen.getByRole("listitem", { name: `User ${user.username}` })
+        ).toBeInTheDocument();
       });
     });
 
-    const userElement = screen.getByText(mockUsers[0].username);
+    const userElement = screen.getByRole("listitem", {
+      name: `User ${mockUsers[0].username}`,
+    });
     userEvent.click(userElement);
 
     await waitFor(() => {

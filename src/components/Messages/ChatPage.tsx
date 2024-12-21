@@ -10,7 +10,8 @@ function ChatPage({
   receiverId: number;
 }) {
   const [content, setContent] = useState("");
-  const [responseOnSubmit, setResponseOnSUbmit] = useState("");
+  const [responseOnSubmit, setResponseOnSubmit] = useState("");
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -19,12 +20,12 @@ function ChatPage({
       content,
     });
     setContent("");
-    setResponseOnSUbmit("Message sent!");
+    setResponseOnSubmit("Message sent!");
   };
 
   return (
-    <div className="flex flex-col h-full  bg-nord6 text-nord0">
-      <ul className="flex flex-col flex-1 overflow-y-auto p-4 space-y-4 ">
+    <div className="flex flex-col h-full bg-nord6 text-nord0">
+      <ul className="flex flex-col flex-1 overflow-y-auto p-4 space-y-4">
         {!messages ? (
           <li className="text-center text-nord7 italic">Loading messages...</li>
         ) : messages.length === 0 ? (
@@ -33,13 +34,23 @@ function ChatPage({
           messages.map((message) => (
             <li
               key={message.id}
-              className={`p-3 rounded-lg shadow-md max-w-fit break-words ${
+              className={`flex space-x-4 p-3 items-center rounded-lg shadow-md max-w-fit break-words ${
                 message.senderId === receiverId
                   ? "self-start bg-nord9 text-white"
                   : "self-end bg-nord5 text-black"
               }`}
             >
-              <p>{message.content}</p>
+              <img
+                src={message.sender.avatarUrl || "/default-avatar.png"}
+                alt={`${message.sender.username}'s avatar`}
+                className="w-8 h-8  rounded-full"
+              />
+              <div>
+                <p className="text-sm font-semibold">
+                  {message.sender.username}
+                </p>
+                <p>{message.content}</p>
+              </div>
             </li>
           ))
         )}
@@ -60,7 +71,7 @@ function ChatPage({
             onChange={(e) => setContent(e.target.value)}
             required
             placeholder="Type your message..."
-            className="flex-1 p-2 bg-nord6 text-nord0 rounded-lg  resize-none"
+            className="flex-1 p-2 bg-nord6 text-nord0 rounded-lg resize-none"
           ></textarea>
         </label>
         {responseOnSubmit && <p className="text-nord14">{responseOnSubmit}</p>}

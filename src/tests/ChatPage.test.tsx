@@ -12,8 +12,28 @@ vi.mock("../utils/handlers.ts", () => ({
 const { handleSubmit } = await import("../utils/handlers");
 
 const messages = [
-  { id: 1, content: "Hello", senderId: 1, receiverId: 2 },
-  { id: 2, content: "Hi there!", senderId: 2, receiverId: 1 },
+  {
+    id: 1,
+    content: "Hello",
+    senderId: 1,
+    receiverId: 2,
+    sender: { username: "user1", avatarUrl: "https://example.com/avatar1.png" },
+    receiver: {
+      username: "user2",
+      avatarUrl: "https://example.com/avatar2.png",
+    },
+  },
+  {
+    id: 2,
+    content: "Hi there!",
+    senderId: 2,
+    receiverId: 1,
+    sender: { username: "User2", avatarUrl: "https://example.com/avatar2.png" },
+    receiver: {
+      username: "User1",
+      avatarUrl: "https://example.com/avatar1.png",
+    },
+  },
 ];
 
 describe("ChatPage", () => {

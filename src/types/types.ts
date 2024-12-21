@@ -1,8 +1,16 @@
 export interface Message {
   id: number;
-  content: string;
   senderId: number;
   receiverId: number;
+  content: string;
+  sender: {
+    username: string;
+    avatarUrl: string;
+  };
+  receiver: {
+    username: string;
+    avatarUrl: string;
+  };
 }
 
 export interface User {
