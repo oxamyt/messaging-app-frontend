@@ -3,7 +3,6 @@ import ChatPage from "./ChatPage";
 import Sidebar from "./Sidebar";
 import { Message } from "../../types/types";
 import Header from "../common/Header";
-import Footer from "../common/Footer";
 import { useParams } from "react-router-dom";
 import { postRequest } from "../../utils/api";
 
@@ -44,7 +43,6 @@ function MessagePage() {
           </div>
         )}
       </div>
-      <Footer />
     </div>
   );
 }

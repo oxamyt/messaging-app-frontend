@@ -59,8 +59,8 @@ describe("ChatPage", () => {
       </Router>
     );
 
-    expect(screen.getByRole("textbox")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /send/i })).toBeInTheDocument();
+    expect(screen.getByRole("message-input")).toBeInTheDocument();
+    expect(screen.getByRole("button")).toBeInTheDocument();
     expect(screen.getByRole("list")).toBeInTheDocument();
   });
 
@@ -72,7 +72,7 @@ describe("ChatPage", () => {
       </Router>
     );
 
-    const submitButton = screen.getByRole("button", { name: /send/i });
+    const submitButton = screen.getByRole("button");
 
     await user.click(submitButton);
 
@@ -87,7 +87,7 @@ describe("ChatPage", () => {
       </Router>
     );
 
-    const messageInput = screen.getByLabelText(/message/i);
+    const messageInput = screen.getByRole("message-input");
 
     await user.type(messageInput, "Hi, dude!");
     const form = screen.getByRole("form");

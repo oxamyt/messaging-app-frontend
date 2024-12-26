@@ -5,6 +5,7 @@ import { getRequest } from "../../utils/api";
 import { MdModeEditOutline } from "react-icons/md";
 import InputField from "../common/InputField";
 import { putRequest, patchRequest } from "../../utils/api";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 function ProfilePage() {
   const { id } = useParams<{ id?: string }>();
@@ -12,18 +13,21 @@ function ProfilePage() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedUserData, setEditedUserData] = useState<User | null>(null);
   const [avatarEditMode, setAvatarEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
   const userId = localStorage.getItem("id") || null;
 
   useEffect(() => {
     const fetchUser = async (id: string | undefined) => {
       if (!id) return;
-
+      setLoading(true);
       try {
         const response = await getRequest(`auth/users/${id}`);
         setUserData(response.user);
         setEditedUserData(response.user);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -53,6 +57,7 @@ function ProfilePage() {
     if (!editedUserData) {
       return;
     }
+
     const userDataToSubmit: Record<string, string> = {
       username: editedUserData.username || "",
       bio: editedUserData.bio || "",
@@ -84,7 +89,6 @@ function ProfilePage() {
         ...prevData!,
         avatarUrl: response.avatarUrl,
       }));
-      console.log(response.avatarUrl);
       setAvatarEditMode(false);
     } catch (err) {
       console.error("Error updating avatar:", err);
@@ -93,10 +97,11 @@ function ProfilePage() {
 
   return (
     <div className="flex justify-center items-center h-full bg-nord5 text-nord4">
-      {userData ? (
+      {loading ? (
+        <AiOutlineLoading3Quarters className="animate-spin w-20 h-20" />
+      ) : userData ? (
         <div className="bg-nord7 p-6 shadow-lg w-full">
           <div className="flex flex-col items-center space-y-4">
-            {" "}
             {id === userId && (
               <MdModeEditOutline
                 aria-label="editMode"
@@ -167,7 +172,7 @@ function ProfilePage() {
           </div>
         </div>
       ) : (
-        <p className="text-nord5">Loading user data...</p>
+        <p className="text-nord5">Error loading user data.</p>
       )}
     </div>
   );

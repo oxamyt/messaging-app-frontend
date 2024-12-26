@@ -1,5 +1,5 @@
 import Header from "../common/Header";
-import Footer from "../common/Footer";
+
 import ProfilePage from "./ProfilePage";
 
 function ProfileLayout() {
@@ -9,7 +9,6 @@ function ProfileLayout() {
       <div className="flex-1 relative">
         <ProfilePage />
       </div>
-      <Footer />
     </div>
   );
 }
