@@ -6,10 +6,12 @@ export interface Message {
   sender: {
     username: string;
     avatarUrl: string;
+    id: number;
   };
   receiver: {
     username: string;
     avatarUrl: string;
+    id: number;
   };
 }
 

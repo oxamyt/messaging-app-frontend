@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Message } from "../../types/types";
 import { handleSubmit } from "../../utils/handlers";
+import { Link } from "react-router-dom";
 
 function ChatPage({
   messages,
@@ -46,9 +47,12 @@ function ChatPage({
                 className="w-8 h-8  rounded-full"
               />
               <div>
-                <p className="text-sm font-semibold">
+                <Link
+                  to={`/user/${message.sender.id}`}
+                  className="text-sm font-semibold"
+                >
                   {message.sender.username}
-                </p>
+                </Link>
                 <p>{message.content}</p>
               </div>
             </li>

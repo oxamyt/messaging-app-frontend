@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
-import { useUser } from "../../Context/UserContext";
+import { isTokenValid } from "../../utils/isTokenValid";
 
 function Header() {
-  const { userId } = useUser();
+  const userId = localStorage.getItem("id") || null;
+  const token = localStorage.getItem("token");
+
+  const isLoggedIn = userId && token && isTokenValid(token);
+
+  if (!isLoggedIn) {
+    localStorage.removeItem("id");
+    localStorage.removeItem("jwt");
+  }
 
   return (
     <header className="bg-nord6 sticky top-0 z-50 text-nord0 p-4 flex justify-between items-center">
@@ -17,7 +25,7 @@ function Header() {
           Messages
         </Link>
         <Link to="/">Home</Link>
-        {userId && <Link to={`/user/${userId}`}>My Profile</Link>}
+        {isLoggedIn && <Link to={`/user/${userId}`}>My Profile</Link>}
       </nav>
     </header>
   );

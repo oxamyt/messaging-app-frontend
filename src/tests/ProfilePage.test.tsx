@@ -22,6 +22,8 @@ describe("Profile Page", () => {
 
     vi.mocked(getRequest).mockResolvedValue({ user: mockUser });
 
+    global.localStorage.setItem("id", "1");
+
     render(
       <Router initialEntries={["/user/1"]}>
         <Routes>
