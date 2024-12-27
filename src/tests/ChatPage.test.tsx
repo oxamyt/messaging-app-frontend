@@ -55,7 +55,11 @@ describe("ChatPage", () => {
   it("renders ChatPage with message list, input, and send button", async () => {
     render(
       <Router>
-        <ChatPage messages={messages} receiverId={1} />
+        <ChatPage
+          messages={messages}
+          receiverId={1}
+          refreshMessages={vi.fn()}
+        />
       </Router>
     );
 
@@ -68,7 +72,11 @@ describe("ChatPage", () => {
     const user = userEvent.setup();
     render(
       <Router>
-        <ChatPage messages={messages} receiverId={1} />
+        <ChatPage
+          messages={messages}
+          receiverId={1}
+          refreshMessages={vi.fn()}
+        />
       </Router>
     );
 
@@ -83,7 +91,11 @@ describe("ChatPage", () => {
     const user = userEvent.setup();
     render(
       <Router>
-        <ChatPage messages={messages} receiverId={1} />
+        <ChatPage
+          messages={messages}
+          receiverId={1}
+          refreshMessages={vi.fn()}
+        />
       </Router>
     );
 
@@ -101,7 +113,11 @@ describe("ChatPage", () => {
   it("renders messages passed as props", () => {
     render(
       <Router>
-        <ChatPage messages={messages} receiverId={1} />
+        <ChatPage
+          messages={messages}
+          receiverId={1}
+          refreshMessages={vi.fn()}
+        />
       </Router>
     );
 
@@ -113,7 +129,7 @@ describe("ChatPage", () => {
   it("renders a placeholder when there are no messages", () => {
     render(
       <Router>
-        <ChatPage messages={[]} receiverId={1} />
+        <ChatPage messages={[]} receiverId={1} refreshMessages={vi.fn()} />
       </Router>
     );
 

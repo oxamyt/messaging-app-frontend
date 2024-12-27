@@ -12,22 +12,21 @@ function MessagePage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [receiverIdState, setReceiverIdState] = useState<number | null>(null);
 
+  const fetchMessages = async (receiverId: string | undefined) => {
+    if (!receiverId) return;
+
+    try {
+      const response = await postRequest("message/retrieve", {
+        targetId: receiverId,
+      });
+      setMessages(response.messages);
+      setReceiverIdState(parseInt(receiverId, 10));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
-    const fetchMessages = async (receiverId: string | undefined) => {
-      if (!receiverId) return;
-
-      try {
-        const response = await postRequest("message/retrieve", {
-          targetId: receiverId,
-        });
-        setMessages(response.messages);
-
-        setReceiverIdState(parseInt(receiverId, 10));
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
     fetchMessages(receiverId);
   }, [receiverId]);
 
@@ -37,7 +36,11 @@ function MessagePage() {
       <div className="flex-1 relative">
         <Sidebar />
         {receiverIdState ? (
-          <ChatPage messages={messages} receiverId={receiverIdState} />
+          <ChatPage
+            messages={messages}
+            receiverId={receiverIdState}
+            refreshMessages={() => fetchMessages(receiverId)}
+          />
         ) : (
           <div className="flex items-center justify-center h-full text-nord7 italic">
             Select a user to start messaging.

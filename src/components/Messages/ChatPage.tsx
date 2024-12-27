@@ -7,9 +7,11 @@ import { IoSend } from "react-icons/io5";
 function ChatPage({
   messages,
   receiverId,
+  refreshMessages,
 }: {
   messages: Message[];
   receiverId: number;
+  refreshMessages: () => void;
 }) {
   const [content, setContent] = useState("");
 
@@ -21,6 +23,7 @@ function ChatPage({
       content,
     });
     setContent("");
+    refreshMessages();
   };
 
   return (
