@@ -2,6 +2,7 @@ import { useState } from "react";
 import { handleSubmit } from "../../utils/handlers";
 import { useNavigate } from "react-router-dom";
 import InputField from "../common/InputField";
+import { Link } from "react-router-dom";
 
 function RegisterPage() {
   const [userCredentials, setUserCredentials] = useState({
@@ -80,7 +81,12 @@ function RegisterPage() {
       />
 
       {error && <p className="text-red-500   text-center">{error}</p>}
-
+      <p>
+        Already have an account?{" "}
+        <Link className="text-nord10" to="/auth/login">
+          Login
+        </Link>{" "}
+      </p>
       <button
         type="submit"
         className="w-full py-3 mt-4 bg-nord8 text-nord3 font-bold rounded-md"

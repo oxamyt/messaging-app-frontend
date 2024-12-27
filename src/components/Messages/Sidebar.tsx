@@ -33,9 +33,9 @@ function Sidebar() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed top-15 left-6 z-40 p-2 bg-nord7 text-nord6 rounded-full shadow-md focus:outline-none hover:bg-nord8"
+        className="fixed top-16 left-6 z-40 p-2 bg-nord7 text-nord6 rounded-full shadow-md focus:outline-none hover:bg-nord8"
       >
-        <FaUsers className="w-5 h-5" />
+        <FaUsers className="w-6 h-6" />
       </button>
 
       <div

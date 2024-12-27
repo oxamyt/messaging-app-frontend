@@ -5,6 +5,7 @@ import { Message } from "../../types/types";
 import Header from "../common/Header";
 import { useParams } from "react-router-dom";
 import { postRequest } from "../../utils/api";
+import NavBar from "../common/NavBar";
 
 function MessagePage() {
   const { receiverId } = useParams<{ receiverId?: string }>();
@@ -43,6 +44,7 @@ function MessagePage() {
           </div>
         )}
       </div>
+      <NavBar />
     </div>
   );
 }

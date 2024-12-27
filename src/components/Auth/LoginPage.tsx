@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { handleSubmit } from "../../utils/handlers";
 import InputField from "../common/InputField";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   const [userCredentials, setUserCredentials] = useState({
@@ -62,7 +63,12 @@ function LoginPage() {
       />
 
       {error && <p className="text-red-500 text-center">{error}</p>}
-
+      <p>
+        No account?{" "}
+        <Link className="text-nord10" to="/auth/register">
+          Sign up
+        </Link>{" "}
+      </p>
       <button
         type="submit"
         className="w-full py-3 mt-4 bg-nord8 text-nord3 font-bold rounded-md"

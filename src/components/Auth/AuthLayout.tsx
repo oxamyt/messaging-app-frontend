@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Header from "../common/Header";
+import NavBar from "../common/NavBar";
 
 function AuthLayout() {
   return (
@@ -8,6 +9,7 @@ function AuthLayout() {
       <main className="flex-1 flex items-center justify-center p-6">
         <Outlet />
       </main>
+      <NavBar />
     </div>
   );
 }

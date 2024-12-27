@@ -1,5 +1,5 @@
 import Header from "../common/Header";
-
+import NavBar from "../common/NavBar";
 import ProfilePage from "./ProfilePage";
 
 function ProfileLayout() {
@@ -9,6 +9,7 @@ function ProfileLayout() {
       <div className="flex-1 relative">
         <ProfilePage />
       </div>
+      <NavBar />
     </div>
   );
 }

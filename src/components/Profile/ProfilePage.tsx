@@ -105,7 +105,7 @@ function ProfilePage() {
             {id === userId && (
               <MdModeEditOutline
                 aria-label="editMode"
-                className="w-7 h-7"
+                className="w-7 h-7 text-nord7 bg-nord4 rounded-lg  "
                 role="button"
                 onClick={handleEditClick}
               />
@@ -120,10 +120,13 @@ function ProfilePage() {
             )}
             {avatarEditMode && (
               <form
+                className="flex
+                flex-col
+                justify-center"
                 onSubmit={handleAvatarFormSubmit}
                 encType="multipart/form-data"
               >
-                <input type="file" name="avatar" />
+                <input type="file" name="avatar" required />
                 <button
                   type="submit"
                   className="bg-blue-500 text-white py-2 px-4 rounded mt-2"
