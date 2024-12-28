@@ -27,27 +27,33 @@ export async function fetchUsers(
 
 export async function postRequest(
   endpoint: string,
-  userData: Record<string, string>
+  userData: Record<string, string> | FormData
 ) {
   try {
     const token = localStorage.getItem("token");
 
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
+    const headers: Record<string, string> = {};
+
+    const body =
+      userData instanceof FormData ? userData : JSON.stringify(userData);
 
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
 
+    if (!(userData instanceof FormData)) {
+      headers["Content-Type"] = `application/json`;
+    }
+
     const response = await fetch(`${API_URL}/${endpoint}`, {
       method: "POST",
       headers,
-      body: JSON.stringify(userData),
+      body,
     });
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.log(errorData);
       return errorData;
     }
 

@@ -3,6 +3,8 @@ import { Message } from "../../types/types";
 import { handleSubmit } from "../../utils/handlers";
 import { Link } from "react-router-dom";
 import { IoSend } from "react-icons/io5";
+import { FaRegFileImage } from "react-icons/fa";
+import { postRequest } from "../../utils/api";
 
 function ChatPage({
   messages,
@@ -14,6 +16,7 @@ function ChatPage({
   refreshMessages: () => void;
 }) {
   const [content, setContent] = useState("");
+  const [imageForm, setImageForm] = useState(false);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,6 +27,20 @@ function ChatPage({
     });
     setContent("");
     refreshMessages();
+  };
+
+  const handleImageFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    formData.append("receiverId", String(receiverId));
+    try {
+      await postRequest("message/image", formData);
+      refreshMessages();
+      setImageForm(false);
+    } catch (err) {
+      console.error("Error updating avatar:", err);
+    }
   };
 
   return (
@@ -37,7 +54,7 @@ function ChatPage({
           messages.map((message) => (
             <li
               key={message.id}
-              className={`flex space-x-4 p-3 items-center rounded-lg  break-all hadow-md ${
+              className={`flex space-x-4 p-3 items-center rounded-lg break-all shadow-md ${
                 message.senderId === receiverId
                   ? "self-start bg-nord9 text-white"
                   : "self-end bg-nord5 text-black"
@@ -55,13 +72,52 @@ function ChatPage({
                 >
                   {message.sender.username}
                 </Link>
-                <p>{message.content}</p>
+
+                {message.content &&
+                message.content.startsWith("http") &&
+                message.content.match(/\.(jpeg|jpg|gif|png)$/) ? (
+                  <img
+                    src={message.content}
+                    alt="Message image"
+                    className="mt-2 max-w-60 max-h-60 rounded-lg"
+                  />
+                ) : (
+                  <p>{message.content}</p>
+                )}
               </div>
             </li>
           ))
         )}
       </ul>
 
+      {imageForm && (
+        <div className="fixed   inset-0 flex items-center justify-center  bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <form
+              className="flex flex-col items-center"
+              onSubmit={handleImageFormSubmit}
+              encType="multipart/form-data"
+            >
+              <input type="file" name="image" required className="mb-4" />
+              <div className="flex space-x-4">
+                <button
+                  type="submit"
+                  className="bg-nord14 text-white py-2 px-4 rounded"
+                >
+                  Upload Image
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setImageForm(false)}
+                  className="bg-nord12 text-white py-2 px-4 rounded"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       <form
         onSubmit={handleFormSubmit}
         role="form"
@@ -78,6 +134,11 @@ function ChatPage({
           placeholder="Type your message..."
           className="flex-1 p-2 bg-nord6 h-10 text-nord0 rounded-2xl resize-none"
         ></textarea>
+
+        <FaRegFileImage
+          onClick={() => setImageForm(!imageForm)}
+          className="p-2 w-10 h-10 bg-nord7 text-nord6  cursor-pointer  shadow-md rounded-lg hover:bg-nord8 transition"
+        />
 
         <button
           type="submit"
