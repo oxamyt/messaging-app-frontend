@@ -31,3 +31,14 @@ export interface InputFieldProps {
   minLength?: number;
   maxLength?: number;
 }
+
+export interface GroupChat {
+  id: number;
+  name: string;
+  members: User[];
+  avatarUrl: string;
+  messages: Message[];
+  creator: User;
+  createdAt: Date;
+  updatedAt: Date;
+}

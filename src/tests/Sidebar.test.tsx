@@ -2,13 +2,14 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { expect, describe, it, vi, beforeEach } from "vitest";
 import "@testing-library/jest-dom";
 import Sidebar from "../components/Messages/Sidebar";
-import { postRequest, fetchUsers } from "../utils/api";
+import { postRequest, fetchUsers, getRequest } from "../utils/api";
 import { User } from "../types/types";
 import { MemoryRouter as Router } from "react-router-dom";
 
 vi.mock("../utils/api", () => ({
   fetchUsers: vi.fn(),
   postRequest: vi.fn(),
+  getRequest: vi.fn(),
 }));
 
 describe("Sidebar", () => {
@@ -21,6 +22,7 @@ describe("Sidebar", () => {
   beforeEach(() => {
     vi.mocked(postRequest).mockResolvedValue([]);
     vi.mocked(fetchUsers).mockResolvedValue(mockUsers);
+    vi.mocked(getRequest).mockResolvedValue({ groupChats: [] });
   });
 
   it("calls fetchUsers on mount", async () => {
@@ -39,7 +41,8 @@ describe("Sidebar", () => {
       </Router>
     );
 
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    const loadingMessages = await screen.findAllByText("Loading...");
+    expect(loadingMessages.length).toBeGreaterThan(0);
 
     await waitFor(() => expect(screen.getByText("user1")).toBeInTheDocument());
   });

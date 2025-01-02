@@ -30,6 +30,10 @@ const router = createBrowserRouter([
     element: <MessagePage />,
   },
   {
+    path: "/group/:groupId?",
+    element: <MessagePage />,
+  },
+  {
     path: "/user/:id?",
     element: <ProfileLayout />,
   },

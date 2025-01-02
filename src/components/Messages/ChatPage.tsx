@@ -9,20 +9,26 @@ import { postRequest } from "../../utils/api";
 function ChatPage({
   messages,
   receiverId,
+  groupId,
+  isGroupChat,
   refreshMessages,
 }: {
   messages: Message[];
-  receiverId: number;
+  isGroupChat: boolean;
+  receiverId?: number;
+  groupId?: string;
   refreshMessages: () => void;
 }) {
   const [content, setContent] = useState("");
   const [imageForm, setImageForm] = useState(false);
+  const userId = localStorage.getItem("id");
+  const parsedUserId = userId ? parseInt(userId, 10) : null;
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await handleSubmit(e, "message", {
-      receiverId: String(receiverId),
+    await handleSubmit(e, isGroupChat ? `message/${groupId}` : "message", {
+      ...(receiverId && { receiverId: String(receiverId) }),
       content,
     });
     setContent("");
@@ -55,9 +61,9 @@ function ChatPage({
             <li
               key={message.id}
               className={`flex space-x-4 p-3 items-center rounded-lg break-all shadow-md ${
-                message.senderId === receiverId
-                  ? "self-start bg-nord9 text-white"
-                  : "self-end bg-nord5 text-black"
+                message.senderId === parsedUserId
+                  ? "self-end bg-nord5 text-black"
+                  : "self-start bg-nord9 text-white"
               }`}
             >
               <img
