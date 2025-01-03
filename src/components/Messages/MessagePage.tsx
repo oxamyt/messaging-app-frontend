@@ -49,7 +49,7 @@ function MessagePage() {
       <Header />
       <div className="flex-1 relative">
         <Sidebar />
-        {messages.length > 0 ? (
+        {groupId || receiverId ? (
           <ChatPage
             messages={messages}
             receiverId={receiverIdState}

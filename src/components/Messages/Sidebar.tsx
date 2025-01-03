@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { User, GroupChat } from "../../types/types";
-import { fetchUsers } from "../../utils/api";
+import { fetchUsers, postRequest, deleteRequest } from "../../utils/api";
 import { FaUsers } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { getRequest } from "../../utils/api";
+import { IoIosAddCircle } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
 
 function Sidebar() {
   const [users, setUsers] = useState<User[]>([]);
@@ -12,23 +14,53 @@ function Sidebar() {
   const [loading, setLoading] = useState(true);
   const [isLeftOpen, setIsLeftOpen] = useState(false);
   const [isRightOpen, setIsRightOpen] = useState(false);
+  const [isGroupInputVisible, setIsGroupInputVisible] = useState(false);
+  const [groupName, setGroupName] = useState("");
   const navigate = useNavigate();
+
+  const handleAddGroupClick = () => {
+    setIsGroupInputVisible((prev) => !prev);
+  };
+
+  const submitGroup = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await postRequest("message/group", {
+        name: groupName,
+      });
+      setGroupName("");
+      await getGroupChats();
+    } catch (error) {
+      console.error("Error creating group:", error);
+    } finally {
+      setIsGroupInputVisible((prev) => !prev);
+    }
+  };
+
+  const getGroupChats = async () => {
+    try {
+      const fetchedGroupChats = await getRequest("message/group");
+      setGroupChats(fetchedGroupChats.groupChats || []);
+    } catch (error) {
+      console.error("Error fetching group chats:", error);
+    }
+  };
+
+  const deleteGroupChat = async ({ groupId }: { groupId: number }) => {
+    try {
+      await deleteRequest(`message/${groupId}`);
+      await getGroupChats();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     const getUsers = async () => {
       try {
         const fetchedUsers = await fetchUsers("auth/users");
         setUsers(fetchedUsers || []);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    const getGroupChats = async () => {
-      try {
-        const fetchedGroupChats = await getRequest("message/group");
-        setGroupChats(fetchedGroupChats.groupChats || []);
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
@@ -82,6 +114,7 @@ function Sidebar() {
             ✖
           </button>
         </div>
+
         {loading ? (
           <p className="p-4 text-nord4">Loading...</p>
         ) : (
@@ -111,7 +144,14 @@ function Sidebar() {
         } transition-transform duration-300 ease-in-out shadow-lg`}
       >
         <div className="flex items-center justify-between p-4 border-b border-nord3">
-          <h2 className="text-lg font-semibold">Group Chats</h2>
+          <div className="flex gap-2 items-center justify-center">
+            <IoIosAddCircle
+              onClick={handleAddGroupClick}
+              size={24}
+              className=" bg-nord7 text-nord6 rounded-lg shadow-md"
+            />
+            <h2 className="text-lg font-semibold">Group Chats</h2>
+          </div>
           <button
             onClick={() => setIsRightOpen(false)}
             className="text-nord0 hover:text-nord11 focus:outline-none"
@@ -119,6 +159,26 @@ function Sidebar() {
             ✖
           </button>
         </div>
+        {isGroupInputVisible && (
+          <div className="p-4">
+            <form onSubmit={submitGroup}>
+              <input
+                type="text"
+                value={groupName}
+                onChange={(e) => setGroupName(e.target.value)}
+                placeholder="Enter group name"
+                className="w-full p-2 border border-nord3 rounded-md focus:outline-none focus:border-nord8"
+              />
+              <button
+                type="submit"
+                className="mt-2 p-2 w-full bg-nord7 text-nord6 rounded-md hover:bg-nord8"
+              >
+                Create Group
+              </button>
+            </form>
+          </div>
+        )}
+
         {loading ? (
           <p className="p-4 text-nord4">Loading...</p>
         ) : (
@@ -126,16 +186,26 @@ function Sidebar() {
             {groupChats.map((groupChat) => (
               <li
                 key={groupChat.id}
-                className="flex items-center space-x-3 cursor-pointer hover:bg-nord3 p-2 rounded-md"
+                className="flex items-center justify-between space-x-3 cursor-pointer hover:bg-nord3 p-2 rounded-md"
                 onClick={() => handleGroupClick(groupChat.id)}
                 aria-label={`User ${groupChat.name}`}
               >
-                <img
-                  src={groupChat.avatarUrl}
-                  alt={`${groupChat.name}'s avatar`}
-                  className="w-12 h-12 rounded-full"
+                <div className="flex items-center space-x-3 cursor-pointer ">
+                  <img
+                    src={groupChat.avatarUrl}
+                    alt={`${groupChat.name}'s avatar`}
+                    className="w-12 h-12 rounded-full"
+                  />
+                  <p className="text-md">{groupChat.name}</p>
+                </div>
+                <MdDelete
+                  size={24}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteGroupChat({ groupId: groupChat.id });
+                  }}
+                  className="text-nord11"
                 />
-                <p className="text-md">{groupChat.name}</p>
               </li>
             ))}
           </ul>
