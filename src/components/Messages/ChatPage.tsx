@@ -39,7 +39,11 @@ function ChatPage({
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
-    formData.append("receiverId", String(receiverId));
+    if (isGroupChat && groupId) {
+      formData.append("groupId", String(groupId));
+    } else if (receiverId) {
+      formData.append("receiverId", String(receiverId));
+    }
     try {
       await postRequest("message/image", formData);
       refreshMessages();

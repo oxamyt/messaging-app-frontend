@@ -41,4 +41,5 @@ export interface GroupChat {
   creator: User;
   createdAt: Date;
   updatedAt: Date;
+  creatorId: number;
 }

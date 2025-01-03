@@ -28,12 +28,14 @@ function MessagePage() {
         setMessages(response.messages);
 
         setReceiverIdState(parseInt(receiverId, 10));
+        setIsGroupChat(false);
       } else if (groupId) {
         const response = await getRequest(`message/${groupId}`);
 
         setMessages(response.messages);
 
         setIsGroupChat(true);
+        setReceiverIdState(undefined);
       }
     } catch (err) {
       console.error(err);

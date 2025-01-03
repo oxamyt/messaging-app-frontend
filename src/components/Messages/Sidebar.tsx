@@ -16,6 +16,8 @@ function Sidebar() {
   const [isRightOpen, setIsRightOpen] = useState(false);
   const [isGroupInputVisible, setIsGroupInputVisible] = useState(false);
   const [groupName, setGroupName] = useState("");
+  const userId = localStorage.getItem("id") || null;
+  const parsedUserId = userId ? parseInt(userId) : null;
   const navigate = useNavigate();
 
   const handleAddGroupClick = () => {
@@ -198,14 +200,17 @@ function Sidebar() {
                   />
                   <p className="text-md">{groupChat.name}</p>
                 </div>
-                <MdDelete
-                  size={24}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteGroupChat({ groupId: groupChat.id });
-                  }}
-                  className="text-nord11"
-                />
+
+                {parsedUserId === groupChat.creatorId && (
+                  <MdDelete
+                    size={24}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteGroupChat({ groupId: groupChat.id });
+                    }}
+                    className="text-nord11"
+                  />
+                )}
               </li>
             ))}
           </ul>
