@@ -12,14 +12,14 @@ function App() {
       <main className="space-y-4 h-full flex flex-col justify-center items-center">
         <Link
           to="/auth/register"
-          className="block px-6 py-3 bg-nord8 text-nord6 rounded-lg hover:bg-nord7 text-center flex items-center justify-center space-x-2"
+          className=" px-6 py-3 bg-nord8 text-nord6 rounded-lg hover:bg-nord7 text-center flex items-center justify-center space-x-2"
         >
           <FaUserPlus />
           <span>Register</span>
         </Link>
         <Link
           to="/auth/login"
-          className="block px-6 py-3 bg-nord7 text-nord6 rounded-lg hover:bg-nord8 text-center flex items-center justify-center space-x-2"
+          className=" px-6 py-3 bg-nord7 text-nord6 rounded-lg hover:bg-nord8 text-center flex items-center justify-center space-x-2"
         >
           <FaSignInAlt />
           <span>Login</span>
@@ -27,7 +27,7 @@ function App() {
         {userId && (
           <Link
             to="/messages"
-            className="block px-6 py-3 bg-nord7 text-nord6 rounded-lg hover:bg-nord8 text-center flex items-center justify-center space-x-2"
+            className=" px-6 py-3 bg-nord7 text-nord6 rounded-lg hover:bg-nord8 text-center flex items-center justify-center space-x-2"
           >
             <FaComment />
             <span>Messages</span>
