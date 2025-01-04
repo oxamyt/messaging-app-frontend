@@ -3,9 +3,10 @@ import { User } from "../../types/types";
 import { useParams } from "react-router-dom";
 import { getRequest } from "../../utils/api";
 import { MdModeEditOutline } from "react-icons/md";
-import InputField from "../common/InputField";
 import { putRequest, patchRequest } from "../../utils/api";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import EditAvatarForm from "../common/EditAvatarForm";
+import ProfileEditForm from "../common/ProfileEditForm";
 
 function ProfilePage() {
   const { id } = useParams<{ id?: string }>();
@@ -119,51 +120,15 @@ function ProfilePage() {
               />
             )}
             {avatarEditMode && (
-              <form
-                className="flex
-                flex-col
-                justify-center"
-                onSubmit={handleAvatarFormSubmit}
-                encType="multipart/form-data"
-              >
-                <input type="file" name="avatar" required />
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white py-2 px-4 rounded mt-2"
-                >
-                  Upload Avatar
-                </button>
-              </form>
+              <EditAvatarForm handleAvatarFormSubmit={handleAvatarFormSubmit} />
             )}
             {isEditMode ? (
-              <form
-                onSubmit={handleFormSubmit}
-                className="w-full max-w-md bg-nord4 p-6 rounded-lg shadow-lg space-y-4"
-              >
-                <InputField
-                  label="Username"
-                  name="username"
-                  type="text"
-                  value={editedUserData?.username || ""}
-                  handleChange={handleUsernameChange}
-                  minLength={2}
-                  maxLength={16}
-                />
-                <label className="block text-nord3">
-                  Bio:
-                  <textarea
-                    name="bio"
-                    value={editedUserData?.bio || ""}
-                    onChange={handleBioChange}
-                    minLength={2}
-                    maxLength={10}
-                    className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6"
-                  />
-                </label>
-                <button className="w-full py-3 mt-4 bg-nord8 text-nord3 font-bold rounded-md">
-                  Submit
-                </button>
-              </form>
+              <ProfileEditForm
+                handleFormSubmit={handleFormSubmit}
+                editedUserData={editedUserData}
+                handleUsernameChange={handleUsernameChange}
+                handleBioChange={handleBioChange}
+              />
             ) : (
               <>
                 <h1 className="text-2xl font-bold text-nord6">
