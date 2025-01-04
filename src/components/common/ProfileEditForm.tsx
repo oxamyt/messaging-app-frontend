@@ -33,7 +33,7 @@ function ProfileEditForm({
           value={editedUserData?.bio || ""}
           onChange={handleBioChange}
           minLength={2}
-          maxLength={10}
+          maxLength={50}
           className="w-full p-3 mt-2 rounded-md bg-nord2 text-nord6"
         />
       </label>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { handleSubmit } from "../../utils/handlers";
 import InputField from "../common/InputField";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const [userCredentials, setUserCredentials] = useState({
@@ -9,6 +10,7 @@ function LoginPage() {
     password: "",
   });
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,6 +33,7 @@ function LoginPage() {
         localStorage.setItem("id", loginRequest.userId);
 
         setError("");
+        navigate("/messages");
       } else {
         setError("Login failed: No token received.");
       }

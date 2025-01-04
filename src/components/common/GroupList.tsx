@@ -37,7 +37,7 @@ function GroupList({
           <IoIosAddCircle
             onClick={handleAddGroupClick}
             size={24}
-            className=" bg-nord7 text-nord6 rounded-lg shadow-md"
+            className=" bg-nord7 cursor-pointer text-nord6 rounded-lg shadow-md"
           />
           <h2 className="text-lg font-semibold">Group Chats</h2>
         </div>

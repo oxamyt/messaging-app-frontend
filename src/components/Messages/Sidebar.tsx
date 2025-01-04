@@ -5,6 +5,7 @@ import { FaUsers } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { getRequest } from "../../utils/api";
+
 import UserList from "../common/UserList";
 import GroupList from "../common/GroupList";
 
@@ -103,7 +104,7 @@ function Sidebar() {
       </button>
 
       <div
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-nord5 text-nord0 transform ${
+        className={`fixed inset-y-0 lg:inset-y-auto left-0 z-40 w-64 bg-nord5 text-nord0 transform ${
           isLeftOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out shadow-lg`}
       >
@@ -116,7 +117,7 @@ function Sidebar() {
       </div>
 
       <div
-        className={`fixed inset-y-0 right-0 z-40 w-64 bg-nord5 text-nord0 transform ${
+        className={`fixed inset-y-0 lg:inset-y-auto right-0 z-40 w-64 bg-nord5 text-nord0 transform ${
           isRightOpen ? "translate-x-0" : "translate-x-full"
         } transition-transform duration-300 ease-in-out shadow-lg`}
       >
