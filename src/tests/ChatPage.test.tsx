@@ -56,6 +56,7 @@ describe("ChatPage", () => {
     render(
       <Router>
         <ChatPage
+          isGroupChat={false}
           messages={messages}
           receiverId={1}
           refreshMessages={vi.fn()}
@@ -73,6 +74,7 @@ describe("ChatPage", () => {
     render(
       <Router>
         <ChatPage
+          isGroupChat={false}
           messages={messages}
           receiverId={1}
           refreshMessages={vi.fn()}
@@ -92,6 +94,7 @@ describe("ChatPage", () => {
     render(
       <Router>
         <ChatPage
+          isGroupChat={false}
           messages={messages}
           receiverId={1}
           refreshMessages={vi.fn()}
@@ -114,6 +117,7 @@ describe("ChatPage", () => {
     render(
       <Router>
         <ChatPage
+          isGroupChat={false}
           messages={messages}
           receiverId={1}
           refreshMessages={vi.fn()}
@@ -129,7 +133,12 @@ describe("ChatPage", () => {
   it("renders a placeholder when there are no messages", () => {
     render(
       <Router>
-        <ChatPage messages={[]} receiverId={1} refreshMessages={vi.fn()} />
+        <ChatPage
+          isGroupChat={false}
+          messages={[]}
+          receiverId={1}
+          refreshMessages={vi.fn()}
+        />
       </Router>
     );
 
